@@ -1,0 +1,24 @@
+server:
+  port: 7000
+  tomcat:
+    access-log-enabled: true
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/savings_db
+    username: emtech
+    password: emtech@2022
+    driverClassName: org.mariadb.jdbc.Driver
+    dbname: savings_db
