@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -27,5 +24,44 @@ public class TransactionController {
             return null;
         }
     }
-
+    @GetMapping("/get/all")
+    public ResponseEntity<?> fetchAll() {
+        try{
+            ApiResponse response = transactionService.getAllTransactions();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            log.info("Catched Error {} " + e);
+            return null;
+        }
+    }
+    @GetMapping("/get/by/id/{transactionId}")
+    public ResponseEntity<?> fetchTransactionById(@PathVariable("transactionId") Long transactionId) {
+        try{
+            ApiResponse response = transactionService.getTransactionById(transactionId);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            log.info("Catched Error {} " + e);
+            return null;
+        }
+    }
+    @GetMapping("/get/by/memberNumber/{memberNumber}")
+    public ResponseEntity<?> fetchTransactionByCustomer(@PathVariable("memberNumber") String memberNumber) {
+        try{
+            ApiResponse response = transactionService.findSumByCustomer(memberNumber);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            log.info("Catched Error {} " + e);
+            return null;
+        }
+    }
+    @GetMapping("/get/by/postedBy/{postedBy}")
+    public ResponseEntity<?> fetchTransactionByPostedBy(@PathVariable("postedBy") String postedBy) {
+        try{
+            ApiResponse response = transactionService.findSumByPostedBy(postedBy);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            log.info("Catched Error {} " + e);
+            return null;
+        }
+    }
 }

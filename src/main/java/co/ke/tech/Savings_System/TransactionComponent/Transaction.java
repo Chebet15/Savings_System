@@ -1,6 +1,5 @@
 package co.ke.tech.Savings_System.TransactionComponent;
 
-import co.ke.tech.Savings_System.TransactionComponent.Parttrans.Parttran;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +8,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,12 +20,14 @@ public class Transaction {
     @Column(name = "id", nullable = false)
     private Long id;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String tranID;
+    private String transactionCode;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date tranDate;
-    private String paymentMethod;
-    private String productType;
-    //    one transaction to many parttrans
-    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
-    private List<Parttran> pattranList;
+    private Date transactionDate;
+    private Double amount;//22.00
+    private String transactionType;//debit or credit
+    private String paymentMethod;//Mpesa or account number
+    private String description;
+    private String productCode;
+    private String memberNumber;
+    private String postedBy;//eg teller
 }

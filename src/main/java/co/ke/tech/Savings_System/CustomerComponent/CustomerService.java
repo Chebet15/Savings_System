@@ -67,7 +67,7 @@ public class CustomerService {
                 customer.setPhoneNumber(customer.getPhoneNumber());
                 Customer savedCustomer = customerRepository.save(customer);
                 response.setMessage(HttpStatus.CREATED.getReasonPhrase());
-                response.setMessage("CUSTOMER NAME " + customer.getFirstName() + " CREATED SUCCESSFULLY AT ");
+                response.setMessage("Customer Name " + customer.getFirstName() + " Created Successfully ");
                 response.setStatusCode(HttpStatus.CREATED.value());
                 response.setEntity(savedCustomer);
             }

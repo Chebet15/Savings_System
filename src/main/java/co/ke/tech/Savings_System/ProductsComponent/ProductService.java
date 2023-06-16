@@ -1,6 +1,7 @@
 package co.ke.tech.Savings_System.ProductsComponent;
 
 import co.ke.tech.Savings_System.CustomerComponent.Customer;
+import co.ke.tech.Savings_System.CustomerComponent.CustomerRepository;
 import co.ke.tech.Savings_System.Response.ApiResponse;
 import co.ke.tech.Savings_System.Utils.CONSTANTS;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,23 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class ProductService {
-@Autowired
+    @Autowired
     ProductRepository productRepository;
+    @Autowired
+    CustomerRepository customerRepository;
+
+    private String generateProductCode() {
+        // Retrieve the last product from the database
+        Product lastProduct = productRepository.findTopByOrderByProductCodeDesc();
+
+        // Extract the product code and increment it
+        String lastProductCode = lastProduct != null ? lastProduct.getProductCode() : "PRCODE000";
+        int productNumber = Integer.parseInt(lastProductCode.substring(6)) + 1;
+        String productCode = "PRCODE" + String.format("%03d", productNumber);
+
+        return productCode;
+    }
+
     public ApiResponse<Product> addProduct(Product product) {
         try {
             ApiResponse response = new ApiResponse();
@@ -25,9 +41,10 @@ public class ProductService {
                     response.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
                 } else {
                     product.setProductName(product.getProductName());
+                    product.setProductCode(generateProductCode());
                     Product savedProduct = productRepository.save(product);
                     response.setMessage(HttpStatus.CREATED.getReasonPhrase());
-                    response.setMessage("PRODUCT NAME " + product.getProductName() + " CREATED SUCCESSFULLY AT " );
+                    response.setMessage("PRODUCT NAME " + product.getProductName() + " CREATED SUCCESSFULLY AT ");
                     response.setStatusCode(HttpStatus.CREATED.value());
                     response.setEntity(savedProduct);
                 }
@@ -36,7 +53,6 @@ public class ProductService {
             log.info("Catched Error {} " + e);
             return null;
         }
-
     }
 
     public ApiResponse<?> getAllProducts() {
@@ -100,6 +116,7 @@ public class ProductService {
             return null;
         }
     }
+
     public ApiResponse<Product> tempDeleteProduct(Long id) {
         try {
             ApiResponse response = new ApiResponse();
