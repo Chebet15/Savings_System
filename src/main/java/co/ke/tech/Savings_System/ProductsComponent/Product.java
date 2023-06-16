@@ -1,4 +1,4 @@
-package co.ke.tech.Savings_System.CustomerComponent;
+package co.ke.tech.Savings_System.ProductsComponent;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -14,17 +14,11 @@ import java.util.Date;
 @ToString
 @Data
 @Entity
-public class Customer {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String idNumber;
-    private String phoneNumber;
-    private String email;
-    @Column(length = 100, unique = true)
-    private String memberNumber;
-    private String accountNo;
+    private String productName;
+    private String productAccount;
 }
